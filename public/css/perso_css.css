@@ -1,0 +1,18 @@
+
+body {
+    background-color: white;
+}
+
+.container {
+    margin-top: 80px;
+    background-color: lemonchiffon;
+    width: 90%;
+}
+
+.jumbotron {
+  background-color:orange;
+}
+
+.event_form {
+  width:50%!important;
+}
