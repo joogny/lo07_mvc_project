@@ -1,7 +1,6 @@
-
 <!-- ----- début viewInserted -->
 <?php
-require ($root . '/app/view/fragment/fragmentGenealogieHeader.html');
+require($root . '/app/view/fragment/fragmentGenealogieHeader.html');
 ?>
 
 <body>
@@ -12,19 +11,19 @@ require ($root . '/app/view/fragment/fragmentGenealogieHeader.html');
     ?>
     <!-- ===================================================== -->
     <?php
-    if ($results) {
-     echo ("<h3>Confirmation de la sélection d'une famille </h3>");
-     echo ("La famille " . $results->getNom() . " (" .  $results->getId() . ") est maintenant sélectionnée");
+    if (!isset($_GET["id"])) {
+      echo ("<h3>Pas de famille sélectionné</h3>");
     } else {
-     echo ("<h3>Impossible de sélectionner la famille</h3>");
-     echo ("id = " . $_GET['id']);
-    }
+      if ($results) {
+        echo ("<h3>Confirmation de la sélection d'une famille </h3>");
+        echo ("La famille " . $results->getNom() . " (" .  $results->getId() . ") est maintenant sélectionnée");
+      } else {
+        echo ("<h3>Impossible de sélectionner la famille</h3>");
+        echo ("id = " . $_GET['id']);
+      }
 
-    echo("</div>");
-    
+      echo ("</div>");
+    }
     include $root . '/app/view/fragment/fragmentGenealogieFooter.html';
     ?>
-    <!-- ----- fin viewSelectedd -->    
-
-    
-    
+    <!-- ----- fin viewSelectedd -->

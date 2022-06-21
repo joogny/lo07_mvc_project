@@ -27,25 +27,30 @@ class ControllerFamille
     }
 
     // Affiche un formulaire pour sélectionner un nom qui existe
-    public static function familleReadNom($args) {
+    public static function familleReadNom($args)
+    {
         $results = ModelFamille::getAll();
-      
+
         // ----- Construction chemin de la vue
         include 'config.php';
         $vue = $root . '/app/view/famille/viewNom.php';
-        require ($vue);
-       }
+        require($vue);
+    }
 
     // Selectionne une famille 
-    public static function familleSelected() {
+    public static function familleSelected()
+    {
+        session_start();
         $famille_id = $_GET['id'];
-        $results = ModelFamille::getOne($famille_id)[0];
+        if (isset($famille_id)) {
+            $results = ModelFamille::getOne($famille_id)[0];
+            $_SESSION["famille"] = $results->getNom();
+            $_SESSION["famille_id"] = $results->getId();
+        }
         // ----- Construction chemin de la vue
         include 'config.php';
         $vue = $root . '/app/view/famille/viewSelected.php';
         require($vue);
-        $_SESSION["famille"] = $results->getNom();
-        $_SESSION["famille_id"] = $results->getId();
     }
 
     // Affiche le formulaire de creation d'une famille
@@ -71,7 +76,7 @@ class ControllerFamille
         include 'config.php';
         $vue = $root . '/app/view/famille/viewInserted.php';
         require($vue);
-        if($results) {
+        if ($results) {
             $_SESSION["famille"] = $_GET['nom'];
             $_SESSION["famille_id"] = $results;
         }

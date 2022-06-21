@@ -21,7 +21,7 @@ class ControllerIndividu
     //affiche le formulaire d'ajout d'un individu
     public static function individuCreate()
     {
-    
+
         // ----- Construction chemin de la vue
         include 'config.php';
         $vue = $root . '/app/view/individu/viewInsert.php';
@@ -72,16 +72,21 @@ class ControllerIndividu
     public static function IndividuSelected()
     {
         session_start();
-        $individu = ModelIndividu::getOne($_GET["id"])[0];
-        $naissance = ModelEvenement::getEvent($_GET["id"],"NAISSANCE")[0];
-        $deces = ModelEvenement::getEvent($_GET["id"],"DECES")[0];
+        if (isset($_GET["id"])) {
+            $individu = ModelIndividu::getOne($_GET["id"]);
+            $naissance = ModelEvenement::getEvent($_GET["id"], "NAISSANCE");
+            $deces = ModelEvenement::getEvent($_GET["id"], "DECES");
 
-        $pere = ModelIndividu::getOne($individu->getPere())[0];
-        $mere = ModelIndividu::getOne($individu->getMere())[0];
+            $pere = array();
+            $mere = array();
+            if (!empty($individu)) {
+                $pere = ModelIndividu::getOne($individu[0]->getPere());
+                $mere = ModelIndividu::getOne($individu[0]->getMere());
+            }
 
-        $unions_individus = ModelIndividu::getUnions($_GET["id"]);
 
-        
+            $unions_individus = ModelIndividu::getUnions($_GET["id"]);
+        }
         include 'config.php';
         $vue = $root . '/app/view/individu/viewSelected.php';
         require($vue);

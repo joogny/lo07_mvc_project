@@ -9,32 +9,34 @@ require($root . '/app/view/fragment/fragmentGenealogieHeader.html');
         include $root . '/app/view/fragment/fragmentGenealogieMenu.html';
         include $root . '/app/view/fragment/fragmentGenealogieJumbotron.php';
 
-
         $linkStart = "https://dev-isi.utt.fr/~millourj/lo07_tp/projet/app/router/router.php?action=individuSelected&id=";
         // $individu : l'individu sélectionné
+
+        if(isset($_GET["id"])) {
         ?>
-        <h3 style="color:red"><strong><?php echo ($individu->getNom() . " " . $individu->getPrenom()); ?></strong></h3>
+        
+        <h3 style="color:red"><strong><?php echo ($individu[0]->getNom() . " " . $individu[0]->getPrenom()); ?></strong></h3>
         
         <!-- ----- début info Naissance/deces -->
         
         <ul>
             <?php
-            if (is_null($naissance)) {
+            if (empty($naissance)) {
                 printf("<li>Né le ?</li>");
             } else {
                 printf(
                     "<li>Né le %s à %s </li>",
-                    $naissance->getEvent_date(),
-                    $naissance->getEvent_lieu()
+                    $naissance[0]->getEvent_date(),
+                    $naissance[0]->getEvent_lieu()
                 );
             }
-            if (is_null($deces)) {
+            if (empty($deces)) {
                 printf("<li>Décès le ?</li>");
             } else {
                 printf(
                     "<li>Décès le %s à %s </li>",
-                    $deces->getEvent_date(),
-                    $deces->getEvent_lieu()
+                    $deces[0]->getEvent_date(),
+                    $deces[0]->getEvent_lieu()
                 );
             }
             ?>
@@ -47,18 +49,18 @@ require($root . '/app/view/fragment/fragmentGenealogieHeader.html');
 
         <?php
 
-            if(is_null($pere)) {
+            if(empty($pere)) {
                 $pereLien = "?";
             }
             else {
-                $pereLien = "<a href='" . $linkStart . $pere->getId() . "'>" . $pere->getNom() . " " . $pere->getPrenom() . "</a>";
+                $pereLien = "<a href='" . $linkStart . $pere[0]->getId() . "'>" . $pere[0]->getNom() . " " . $pere[0]->getPrenom() . "</a>";
             }
 
-            if(is_null($mere)) {
+            if(empty($mere)) {
                 $mereLien = "?";
             }
             else {
-                $mereLien = "<a href='" . $linkStart . $mere->getId() . "'>" . $mere->getNom() . " " . $mere->getPrenom() . "</a>";
+                $mereLien = "<a href='" . $linkStart . $mere[0]->getId() . "'>" . $mere[0]->getNom() . " " . $mere[0]->getPrenom() . "</a>";
             }
         ?>
 
@@ -96,6 +98,11 @@ require($root . '/app/view/fragment/fragmentGenealogieHeader.html');
 
     </div>
 
-    <?php include $root . '/app/view/fragment/fragmentGenealogieFooter.html'; ?>
+    <?php 
+    }
+    else {
+        echo("<h3 style='color:red'><strong>PAS D'INDIVIDU SELECTIONNE</strong></h3>");
+    }
+    include $root . '/app/view/fragment/fragmentGenealogieFooter.html'; ?>
 
     <!-- ----- fin viewId -->
